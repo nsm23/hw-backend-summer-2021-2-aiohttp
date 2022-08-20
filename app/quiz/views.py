@@ -88,3 +88,5 @@ class QuestionListView(View):
         questions = await self.store.quizzes.list_questions(theme_id=theme_id)
         questions_raw = [QuestionResponseScheme().dump(question) for question in questions]
         return json_response(data={"questions": questions_raw})
+
+
