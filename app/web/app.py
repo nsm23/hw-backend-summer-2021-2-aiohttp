@@ -5,6 +5,7 @@ from aiohttp.web import (
     View as AiohttpView,
     Request as AiohttpRequest,
 )
+from aiohttp_apispec import setup_aiohttp_apispec
 
 from app.admin.models import Admin
 from app.store import setup_store, Store
@@ -51,5 +52,6 @@ def setup_app(config_path: str) -> Application:
     setup_config(app, config_path)
     setup_routes(app)
     setup_middlewares(app)
+    setup_aiohttp_apispec(app, title="KTS.Studio Vk-bot", url="/docs/json", swagger_path="/docs")
     setup_store(app)
     return app
