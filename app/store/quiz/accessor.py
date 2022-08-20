@@ -34,7 +34,7 @@ class QuizAccessor(BaseAccessor):
         question = Question(id=self.app.database.next_question_id,
                             title=str(title),
                             theme_id=int(theme_id),
-                            answers=str(answers))
+                            answers=list(answers))
         self.app.database.questions.append(question)
         return question
 

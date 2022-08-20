@@ -62,7 +62,7 @@ class QuestionAddView(View):
         if count != 1:
             raise HTTPBadRequest
 
-        theme = await self.store.quizzes.get_theme_by_id(data["title"])
+        theme = await self.store.quizzes.get_theme_by_id(data["theme_id"])
         if not theme:
             raise HTTPNotFound
 
