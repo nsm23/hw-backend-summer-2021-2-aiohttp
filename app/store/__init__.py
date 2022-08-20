@@ -9,7 +9,13 @@ if typing.TYPE_CHECKING:
 class Store:
     def __init__(self, app: "Application"):
         from app.store.quiz.accessor import QuizAccessor
+        from app.store.admin.accessor import AdminAccessor
+        from app.store.bot.manager import BotManager
+        from app.store.vk_api.accessor import VkApiAccessor
 
+        self.vk_api = VkApiAccessor(app)
+        self.bots_manager = BotManager(app)
+        self.admins = AdminAccessor(app)
         self.quizzes = QuizAccessor(app)
 
 
