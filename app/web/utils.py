@@ -30,3 +30,4 @@ def error_json_response(
             'message': str(message),
             'data': data
         })
+

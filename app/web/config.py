@@ -32,7 +32,6 @@ class Config:
 
 
 def setup_config(app: "Application", config_path: str):
-    # TODO: добавить BotConfig и SessionConfig по данным из config.yml
     with open(config_path, "r") as f:
         raw_config = yaml.safe_load(f)
 

@@ -1,4 +1,4 @@
-from asyncio import Task
+from asyncio import Task, create_task, get_event_loop, wait
 from typing import Optional
 
 from app.store import Store
@@ -23,3 +23,4 @@ class Poller:
     async def poll(self):
         while self.is_running:
             await self.store.vk_api.poll()
+

@@ -18,7 +18,7 @@ class AnswerSchema(Schema):
 class QuestionSchema(Schema):
     title = fields.Str(required=True)
     theme_id = fields.Int(required=True)
-    answer = fields.Nested(AnswerSchema, many=True)
+    answers = fields.Nested(AnswerSchema, many=True)
 
 
 class QuestionResponseScheme(QuestionSchema):
@@ -38,4 +38,4 @@ class ThemeIdSchema(Schema):
 
 
 class ListQuestionSchema(Schema):
-    questions: fields.Nested(QuestionResponseScheme, many=True)
+    questions: fields.Nested(QuestionResponseScheme, many=True, )

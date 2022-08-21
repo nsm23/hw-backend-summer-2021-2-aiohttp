@@ -52,6 +52,6 @@ def setup_app(config_path: str) -> Application:
     setup_config(app, config_path)
     setup_routes(app)
     setup_middlewares(app)
-    setup_aiohttp_apispec(app, title="KTS.Studio Vk-bot", url="/docs/json", swagger_path="/docs")
+    setup_aiohttp_apispec(app, title='Bot Application', url='/docs/json', swagger_path='/docs')
     setup_store(app)
     return app

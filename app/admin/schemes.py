@@ -15,4 +15,3 @@ class UserSchema(Schema):
 
 class AdminResponseSchema(OkResponseSchema):
     data = fields.Nested(UserSchema)
-

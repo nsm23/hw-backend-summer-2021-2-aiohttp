@@ -1,17 +1,12 @@
 from aiohttp_apispec import request_schema, response_schema, querystring_schema
 from aiohttp_session import get_session
-from aiohttp.web_exceptions import (HTTPConflict,
-                                    HTTPNotFound,
-                                    HTTPBadRequest,
-                                    HTTPUnauthorized)
-from app.quiz.schemes import (ThemeSchema,
-                              ThemeRequestSchema,
-                              QuestionSchema,
-                              QuestionResponseScheme,
-                              QuestionIdScheme,
-                              ListQuestionSchema)
+
+from app.quiz.schemes import (
+    ThemeSchema, ThemeRequestSchema, QuestionSchema, QuestionResponseScheme, QuestionIdScheme, ListQuestionSchema,
+)
 from app.web.app import View
 from app.web.utils import json_response
+from aiohttp.web_exceptions import HTTPConflict, HTTPNotFound, HTTPBadRequest, HTTPUnauthorized
 
 
 # TODO: добавить проверку авторизации для этого View
@@ -24,12 +19,15 @@ class ThemeAddView(View):
         if not session:
             raise HTTPUnauthorized
 
-        data = self.request["data"]
-        theme = await self.store.quizzes.get_theme_by_title(data["title"])
+        data = self.request['data']
+        theme = await self.store.quizzes.get_theme_by_title(data['title'])
+
         if theme:
             raise HTTPConflict
+
         title = (await self.request.json())["title"]
         # TODO: заменить на self.data["title"] после внедрения валидации
+
         # TODO: проверять, что не существует темы с таким же именем, отдавать 409 если существует
         theme = await self.store.quizzes.create_theme(title=title)
         return json_response(data=ThemeSchema().dump(theme))
@@ -40,9 +38,10 @@ class ThemeListView(View):
         session = await get_session(self.request)
         if not session:
             raise HTTPUnauthorized
+
         themes = await self.store.quizzes.list_themes()
         raw_themes = [ThemeSchema().dump(theme) for theme in themes]
-        return json_response(data={"themes": raw_themes})
+        return json_response(data={'themes': raw_themes})
 
 
 class QuestionAddView(View):
@@ -52,29 +51,34 @@ class QuestionAddView(View):
         if not session:
             raise HTTPUnauthorized
 
-        data = self.request["data"]
-        if len(data["answers"]) == 1:
+        data = self.request['data']
+
+        if len(data['answers']) == 1:
             raise HTTPBadRequest
+
         count = 0
-        for answer in data["answers"]:
-            if answer["is_correct"]:
+        for answer in data['answers']:
+            if answer['is_correct']:
                 count += 1
+
         if count != 1:
             raise HTTPBadRequest
 
-        theme = await self.store.quizzes.get_theme_by_id(data["theme_id"])
+        theme = await self.store.quizzes.get_theme_by_id(data['theme_id'])
+
         if not theme:
             raise HTTPNotFound
 
         question = await self.store.quizzes.create_question(
-            title=data["title"],
-            theme_id=data["theme_id"],
-            answers=data["answers"]
+            title=data['title'],
+            theme_id=data['theme_id'],
+            answers=data['answers']
         )
         return json_response(data=QuestionResponseScheme().dump(question))
 
 
 class QuestionListView(View):
+
     @querystring_schema(QuestionIdScheme)
     @response_schema(ListQuestionSchema)
     async def get(self):
@@ -84,9 +88,7 @@ class QuestionListView(View):
 
         theme_id = None
         if self.request.query:
-            theme_id = self.request.query["theme_id"]
+            theme_id = self.request.query['theme_id']
         questions = await self.store.quizzes.list_questions(theme_id=theme_id)
         questions_raw = [QuestionResponseScheme().dump(question) for question in questions]
-        return json_response(data={"questions": questions_raw})
-
-
+        return json_response(data={'questions': questions_raw})

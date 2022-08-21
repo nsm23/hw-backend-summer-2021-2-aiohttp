@@ -1,3 +1,4 @@
+from array import array
 from typing import Optional
 
 from app.base.base_accessor import BaseAccessor
@@ -39,7 +40,7 @@ class QuizAccessor(BaseAccessor):
         return question
 
     async def list_questions(self, theme_id: Optional[int] = None) -> list[Question]:
-        result =[]
+        result = []
         for question in self.app.database.questions:
             if theme_id and question.theme_id != theme_id:
                 continue

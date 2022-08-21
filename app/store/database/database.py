@@ -7,8 +7,8 @@ from app.quiz.models import Theme, Question
 @dataclass
 class Database:
     # TODO: добавить поля admins и questions
-    themes: list[Theme] = field(default_factory=list)
     admins: list[Admin] = field(default_factory=list)
+    themes: list[Theme] = field(default_factory=list)
     questions: list[Question] = field(default_factory=list)
 
     @property
