@@ -8,3 +8,6 @@ class Admin:
     id: int
     email: str
     password: Optional[str] = None
+
+
+
